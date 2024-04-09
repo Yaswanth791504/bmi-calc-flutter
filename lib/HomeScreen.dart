@@ -27,41 +27,16 @@ class _HomeScreenState extends State<HomeScreen> {
         foregroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: const Padding(
+        padding: EdgeInsets.all(20.0),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Expanded(
+              Expanded(
                 flex: 10,
                 child: BodyContainer(),
               ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/bmi');
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: const BoxDecoration(
-                      color: Colors.pinkAccent,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50.0),
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'CALCULATE',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),

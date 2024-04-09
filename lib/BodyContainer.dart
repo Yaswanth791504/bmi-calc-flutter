@@ -1,3 +1,4 @@
+import 'package:body_mass_index/CalculateBMI.dart';
 import 'package:body_mass_index/ScalableContainer.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,9 @@ Color inActiveTabColor = const Color(0x6BFFFFFF);
 
 class _BodyContainerState extends State<BodyContainer> {
   Gender _ismale = Gender.male;
-  double _sliderValue = 50.0;
+  double _height = 50.0;
+  double _weight = 50.0;
+  int _age = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class _BodyContainerState extends State<BodyContainer> {
                         children: <Widget>[
                           Icon(
                             Icons.male,
-                            size: 150.0,
+                            size: 140.0,
                             color: _ismale == Gender.male ? activeTabColor : inActiveTabColor,
                           ),
                           Text(
@@ -72,7 +75,7 @@ class _BodyContainerState extends State<BodyContainer> {
                         children: <Widget>[
                           Icon(
                             Icons.female,
-                            size: 150.0,
+                            size: 140.0,
                             color: _ismale == Gender.female ? activeTabColor : inActiveTabColor,
                           ),
                           Text(
@@ -106,11 +109,8 @@ class _BodyContainerState extends State<BodyContainer> {
                         fontSize: 25.0,
                       ),
                     ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
                     Text(
-                      '${_sliderValue.toStringAsFixed(1)} cm',
+                      '${_height.toStringAsFixed(1)} cm',
                       style: const TextStyle(
                         fontSize: 40.0,
                         fontWeight: FontWeight.bold,
@@ -125,12 +125,12 @@ class _BodyContainerState extends State<BodyContainer> {
                         overlayColor: const Color(0x32FF1E1E),
                       ),
                       child: Slider(
-                        value: _sliderValue,
-                        max: 150.0,
+                        value: _height,
+                        max: 200.0,
                         min: 10.0,
                         onChanged: (value) {
                           setState(() {
-                            _sliderValue = value;
+                            _height = value;
                           });
                         },
                       ),
@@ -143,26 +143,162 @@ class _BodyContainerState extends State<BodyContainer> {
           const SizedBox(
             height: 20.0,
           ),
-          const Expanded(
+          Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
                   child: ScalableContainer(
-                    childWidget: Text('data'),
+                    childWidget: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Age',
+                          style: TextStyle(
+                            color: inActiveTabColor,
+                            fontSize: 25.0,
+                          ),
+                        ),
+                        Text(
+                          _age.toStringAsFixed(0),
+                          style: TextStyle(
+                            color: activeTabColor,
+                            fontSize: 45.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            FloatingActionButton(
+                              backgroundColor: const Color(0xFF1d1f31),
+                              foregroundColor: Colors.white,
+                              onPressed: () {
+                                setState(() {
+                                  _age++;
+                                });
+                              },
+                              elevation: 10.0,
+                              child: const Icon(
+                                Icons.add,
+                                size: 40.0,
+                              ),
+                            ),
+                            FloatingActionButton(
+                              backgroundColor: const Color(0xFF1d1f31),
+                              foregroundColor: Colors.white,
+                              onPressed: () {
+                                setState(() {
+                                  _age--;
+                                });
+                              },
+                              elevation: 10.0,
+                              child: const Icon(
+                                Icons.remove,
+                                size: 40.0,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10.0,
                 ),
                 Expanded(
                   child: ScalableContainer(
-                    childWidget: Text('data'),
+                    childWidget: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Weight',
+                          style: TextStyle(
+                            color: inActiveTabColor,
+                            fontSize: 25.0,
+                          ),
+                        ),
+                        Text(
+                          _weight.toStringAsFixed(0),
+                          style: TextStyle(
+                            color: activeTabColor,
+                            fontSize: 45.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            FloatingActionButton(
+                              backgroundColor: const Color(0xFF1d1f31),
+                              foregroundColor: Colors.white,
+                              onPressed: () {
+                                setState(() {
+                                  _weight++;
+                                });
+                              },
+                              elevation: 10.0,
+                              child: const Icon(
+                                Icons.add,
+                                size: 40.0,
+                              ),
+                            ),
+                            FloatingActionButton(
+                              backgroundColor: const Color(0xFF1d1f31),
+                              foregroundColor: Colors.white,
+                              onPressed: () {
+                                setState(() {
+                                  _weight--;
+                                });
+                              },
+                              elevation: 10.0,
+                              child: const Icon(
+                                Icons.remove,
+                                size: 40.0,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
+          const SizedBox(
+            height: 20.0,
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/bmi',
+                arguments: CalculateBMI(height: _height, weight: _weight),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(15.0),
+              decoration: const BoxDecoration(
+                color: Colors.pinkAccent,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(50.0),
+                ),
+              ),
+              alignment: Alignment.center,
+              child: const Text(
+                'CALCULATE',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
